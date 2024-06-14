@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 
 public class Mlt_PlayerStateController : NetworkBehaviour
@@ -14,22 +15,35 @@ public class Mlt_PlayerStateController : NetworkBehaviour
     private Vector3 startPlayer2Position = new Vector3(0, 4);
 
 
-    public static float health = 3f;
+    public static float healthP1 = 3f;
+    public static float healthP2 = 3f;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
         RequestSetPlayerPositionServerRpc();
 
-        Debug.Log("Id: " + OwnerClientId);
-        Debug.Log("Health: " + health);
-
         GetNumConnectedPlayers();
+    }
+
+    public override void OnNetworkDespawn()
+    {    
+   
+        Debug.Log("Health1:  " + healthP1 + "Health2:  " + healthP2);
+        DestroyNetworkClientRPC();
+
+        if (NetworkManager.Singleton != null)
+        {
+            Destroy(NetworkManager.Singleton.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!IsOwner) return;
+
+        RequestUpdateHpServerRpc();
 
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -39,12 +53,14 @@ public class Mlt_PlayerStateController : NetworkBehaviour
             Debug.Log("Host:" + IsHost);
         }
 
+
+
         if (!IsHost)
         {
             // Lógica de movimiento
             float horizontalInput = Input.GetAxis("Horizontal");
             transform.Translate(new Vector3(horizontalInput, 0f, 0f) * -speed * Time.deltaTime);
-            
+
         }
         else if (IsHost)
         {
@@ -52,16 +68,43 @@ public class Mlt_PlayerStateController : NetworkBehaviour
             float horizontalInput = Input.GetAxis("Horizontal");
             transform.Translate(new Vector3(horizontalInput, 0f, 0f) * speed * Time.deltaTime);
         }
+
+
+        if (OwnerClientId == 0 && healthP1 > 0 && healthP2 <= 0)
+        {
+            SceneManager.LoadScene("MLT_WinnerScene");
+
+        }
+        else if (OwnerClientId == 0 && healthP1 <= 0 && healthP2 > 0)
+        {
+            SceneManager.LoadScene("MLT_LoserScene");
+        }
+
+        if (OwnerClientId == 1 && healthP2 > 0 && healthP1 <= 0)
+        {
+            SceneManager.LoadScene("MLT_WinnerScene");
+        }
+        else if (OwnerClientId == 1 && healthP2 <= 0 && healthP1 > 0)
+        {
+            SceneManager.LoadScene("MLT_LoserScene");
+        }
+
+        if (healthP1 <= 0 || healthP2 <= 0)
+        {
+            healthP1 = 3f;
+            healthP2 = 3f;
+
+        }
+
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Health: " + health);
-        health -= 1;
-        if (health == 0)
-        {
-            Debug.Log("Dead");
-        }
+        if (OwnerClientId == 0) healthP1 -= 1;
+
+        else if (OwnerClientId == 1) healthP2 -= 1;
+
     }
 
     public int GetNumConnectedPlayers()
@@ -71,7 +114,8 @@ public class Mlt_PlayerStateController : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void RequestSetPlayerPositionServerRpc(){
+    public void RequestSetPlayerPositionServerRpc()
+    {
         setPlayerPositionClientRpc();
     }
     [ClientRpc]
@@ -95,4 +139,32 @@ public class Mlt_PlayerStateController : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
+    public void RequestUpdateHpServerRpc()
+    {
+        UpdateHpClientRpc();
+    }
+    [ClientRpc]
+    public void UpdateHpClientRpc()
+    {
+        if (OwnerClientId == 0) 
+        {
+            Debug.Log("OwnerClientID:   " + OwnerClientId);
+            Debug.Log("Health1  " + healthP1 + "    Healt2   " + healthP2);
+            this.GetComponentInChildren<TextMesh>().text = healthP1.ToString();
+        }
+        else if (OwnerClientId == 1)
+        { 
+            Debug.Log("OwnerClientID:   " + OwnerClientId);
+            Debug.Log("Health1  " + healthP1 + "    Healt2   " + healthP2);
+            this.GetComponentInChildren<TextMesh>().text = healthP2.ToString();
+        }
+
+    }
+
+    [ClientRpc]
+    public void DestroyNetworkClientRPC()
+    {
+        NetworkManager.Singleton.Shutdown();
+    }
 }

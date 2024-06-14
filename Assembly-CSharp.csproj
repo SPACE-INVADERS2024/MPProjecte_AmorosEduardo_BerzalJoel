@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Multiplayer\MultiplayerPlayerStateController.cs" />
     <Compile Include="Assets\Scripts\EnemyBullet.cs" />
     <Compile Include="Assets\Scripts\Multiplayer\MultiplayerPlayerShoting.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\HPManager.cs" />
     <Compile Include="Assets\Scripts\PlayerStateController.cs" />
     <Compile Include="Assets\Scripts\PlayerShootBullet.cs" />
     <Compile Include="Assets\Scripts\GameOver.cs" />

@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 5178711861562539140}
   - component: {fileID: 6579506939364468289}
   - component: {fileID: 3024895108230962622}
+  - component: {fileID: 3615881316084818520}
+  - component: {fileID: -6041429055727549700}
+  - component: {fileID: -1991069332731845013}
   m_Layer: 0
   m_Name: Player
   m_TagString: Plyr
@@ -238,6 +241,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3856581504496159431, guid: 538638d604303594abcdc3d78cb602ef, type: 3}
   bulletSpawnPoint: {fileID: 1391157905026989597}
+--- !u!114 &3615881316084818520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3379588103968841526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b559a60d53cdf41a0f9e5be5d8840c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp1Txt: {fileID: 0}
+  hp2Txt: {fileID: 0}
+--- !u!114 &-6041429055727549700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3379588103968841526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &-1991069332731845013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3379588103968841526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b559a60d53cdf41a0f9e5be5d8840c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp1Txt: {fileID: 4256967243750771244, guid: 70bcfef9961e4714ba8cee5e40707870, type: 3}
+  hp2Txt: {fileID: 3586763392267672860, guid: e481ba620229bd94480453f1ad3b6b91, type: 3}
 --- !u!1 &5506447317917432794
 GameObject:
   m_ObjectHideFlags: 0

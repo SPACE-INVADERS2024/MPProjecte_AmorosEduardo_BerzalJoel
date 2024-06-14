@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -11,6 +12,7 @@ public class NetWorkManagerUI : MonoBehaviour
 {
     [SerializeField] private Button hostBtn;
     [SerializeField] private Button clientBtn;
+    [SerializeField] private Button exitBtn;
     [SerializeField] private TestRelay relay;
     [SerializeField] private Text textJoinCode;
 
@@ -35,6 +37,11 @@ public class NetWorkManagerUI : MonoBehaviour
 
             relay.JoinRelay(joinCode);
         });
+
+        exitBtn.onClick.AddListener(() => {
+            SceneManager.LoadScene("MainMenu");
+        });
+        
     }
     private void Update()
     {
